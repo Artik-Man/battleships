@@ -1,0 +1,4 @@
+<div class="battlefield" [ngClass]="{'enemy':isEnemy}">
+  <h2 class="title">{{title}}</h2>
+  <div *ngFor="let cell of cells" class="cell" [ngClass]="{'ship': cell.shipHere, 'damage': cell.shipDamaged, 'miss': cell.miss}"></div>
+</div>

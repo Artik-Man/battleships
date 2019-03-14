@@ -2,15 +2,42 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { BattlefieldComponent } from './components/battlefield';
+import GameGeneratorService from './services/gameGenerator';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BattlefieldComponent
   ],
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [GameGeneratorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+/**
+Battle ship test task
+---------------------
+Preferably develop following task in Angular 6 with TypeScript. Make sure code is posted in github
+or bitbucket public repo.
+1) Let's create an onscreen grid of cells aligned within a square 10 by 10.
+2) Then we set up initial battle ships - one L shaped, one I shaped and two dot shaped. Initial battle
+ships cannot overlap.
+3) Start actual game manually per play after any kind of user input which would simulate shots at
+random positions - any missed shot would indicate already hit area, any shot at any of initial ships
+would visually indicate that battle ship has sink (change of ship color would be fine enough). (note,
+no autoplay is needed)
+4) Program must be able to tell that all ships have sunk and game is over.
+Seems simple enough and will show some actual code and how does person handles UI
+development - which frameworks and language dialects he feels most comfortable with and stuff
+like that.
+5) Battle ships must not touch one another so there is at least a single cell between them. Any
+battle ship rotation must be random.
+Each ship must have outline color defining boundaries of a ship.
+6) Multi cell battle ships (I && L) must consist of 4 cells, so there is no ambiguity of L shapes that
+do not look like L and I shapes of more or less than 4 cells.
+ */

@@ -1,13 +1,7 @@
 <section class="main">
   <h1>Battleships</h1>
   <div class="fields">
-    <div class="battlefield">
-      <h2 class="title">Your field</h2>
-      <div *ngFor="let cell of cells" class="cell"></div>
-    </div>
-    <div class="battlefield enemy">
-        <h2 class="title">Enemy field</h2>
-      <div *ngFor="let cell of cells" class="cell"></div>
-    </div>
+    <app-battlefield [ships]="playerShips" title="Your field"></app-battlefield>
+    <app-battlefield [ships]="enemyShips" title="Enemy field" isEnemy="true"></app-battlefield>
   </div>
 </section>
