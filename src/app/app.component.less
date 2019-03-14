@@ -1,0 +1,54 @@
+html,
+body {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+@import "styles/colors";
+.main {
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  margin: 1em 0 2em;
+  font-size: 3em;
+}
+
+h2 {
+  text-align: center;
+  margin: 0 0 1em 0;
+  font-size: 2em;
+}
+
+.fields {
+  display: flex;
+  justify-content: space-around;
+}
+
+.battlefield {
+  position: relative;
+  @size: 49vmin/10;
+  box-shadow: 0 0 5px 0 @ally;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  width: @size*10;
+  &.enemy {
+    box-shadow: 0 0 5px 0 @enemy;
+  }
+  .title {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+  }
+  .cell {
+    width: @size;
+    height: @size;
+    box-shadow: inset 0 0 0 1px #ccc;
+  }
+}

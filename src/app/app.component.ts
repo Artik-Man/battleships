@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  title = 'battleships';
+  public cells = [];
+  constructor(){
+    this.cells.length = 100;
+  }
 }
