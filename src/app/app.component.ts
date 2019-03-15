@@ -39,6 +39,7 @@ export class AppComponent {
   ) { }
 
   public restart() {
+    this.winner = null;
     this.gameIsStarted = true;
     this.bot.restart();
     const playerShips = this.createShips(this.generateShapes());
