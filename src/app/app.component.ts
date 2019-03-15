@@ -12,6 +12,7 @@ import Bot from './services/bot';
 
 export class AppComponent {
   public gameIsStarted = false;
+  public winner: string;
   public battleFields: {
     [player: string]: {
       title: string,
@@ -20,12 +21,12 @@ export class AppComponent {
     }
   } = {
       player: {
-        title: 'Your field',
+        title: 'Player',
         cells: [],
         isEnemy: false
       },
       enemy: {
-        title: 'Enemy field',
+        title: 'Enemy',
         cells: [],
         isEnemy: true
       }
@@ -50,14 +51,13 @@ export class AppComponent {
 
   public playerFire(point: Point) {
     const hit = this.game.playerFire(point);
-    if (hit) {
-      const state: GameState = this.game.checkGameState();
-      this.gameStateReaction(state);
-    } else {
+    if (!hit) {
       this.bot.myTurn((p: Point) => {
         return this.game.enemyFire(p);
       });
     }
+    const state: GameState = this.game.checkGameState();
+    this.gameStateReaction(state);
   }
 
   private gameStateReaction(state: GameState) {
@@ -66,10 +66,10 @@ export class AppComponent {
       case GameState.GameContinues:
         break;
       case GameState.PlayerWin:
-        console.log('player win');
+        this.winner = this.battleFields.player.title;
         break;
       case GameState.EnemyWin:
-        console.log('enemy win');
+        this.winner = this.battleFields.enemy.title;
     }
   }
 

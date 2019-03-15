@@ -4,6 +4,9 @@
     <app-battlefield [title]="battleFields.player.title" [cells]="battleFields.player.cells"></app-battlefield>
     <app-battlefield [title]="battleFields.enemy.title" [isEnemy]="battleFields.enemy.isEnemy"
       [cells]="battleFields.enemy.cells" (fire)="playerFire($event)"></app-battlefield>
+      <article class="winner" *ngIf="winner">
+        <h2>{{winner}} won!</h2>
+      </article>
   </div>
   <div class="button__container">
     <button class="button" (click)="restart()">Restart</button>
