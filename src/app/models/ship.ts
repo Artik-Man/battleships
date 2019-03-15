@@ -2,7 +2,8 @@ export default class Ship {
   public id: number;
   public shape: Cell[];
   public position: ShipPosition;
-  public dead = false;
+  public dead: boolean;
+  public damaged: boolean;
 
   constructor(id: number, shape: Cell[]) {
     this.id = id;
@@ -14,6 +15,8 @@ export default class Ship {
       x: 0,
       y: 0
     };
+    this.dead = false;
+    this.damaged = false;
   }
 }
 

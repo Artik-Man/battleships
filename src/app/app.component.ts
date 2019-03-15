@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import GameGeneratorService from './services/gameGenerator';
-import Ship, { Cell } from './models/ship';
+import Ship, { Cell, ShipPosition } from './models/ship';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +20,14 @@ export class AppComponent {
     this.playerShips = this.createShips(this.generateShapes());
     this.enemyShips = this.createShips(this.generateShapes());
     this.generator.start(this.playerShips, this.enemyShips);
+  }
+
+  public playerFire(point: ShipPosition) {
+    console.log(point);
+  }
+
+  public enemyFire(point: ShipPosition) {
+    console.log(point);
   }
 
   private generateShapes(): Cell[][] {
