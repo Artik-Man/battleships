@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import Ship, { ShipPosition } from '../models/ship';
+import Ship from '../models/ship';
 
 @Injectable()
 export default class GameGeneratorService {
-  private playerShips: Ship[] = [];
-  private enemyShips: Ship[] = [];
 
   constructor() {
     console.log(this);
   }
 
   public start(palyerShips: Ship[], enemyShips: Ship[]) {
-    this.playerShips = this.arrangeShips(palyerShips);
-    this.enemyShips = this.arrangeShips(enemyShips);
+    this.arrangeShips(palyerShips);
+    this.arrangeShips(enemyShips);
   }
 
   private arrangeShips(ships: Ship[]): Ship[] {

@@ -2,9 +2,10 @@
   <button class="restart" (click)="restart()">Restart</button>
   <h1>Battleships</h1>
   <div class="fields">
-    <app-battlefield [ships]="playerShips" fieldTitle="Your field" (fire)="playerFire($event)"></app-battlefield>
-    <app-battlefield [ships]="enemyShips" fieldTitle="Enemy field" (fire)="enemyFire($event)" isEnemy="true">
-    </app-battlefield>
+    <app-battlefield [title]="battleFields.player.title" [isEnemy]="battleFields.player.isEnemy"
+      [cells]="battleFields.player.cells" (fire)="enemyFire($event)"></app-battlefield>
+    <app-battlefield [title]="battleFields.enemy.title" [isEnemy]="battleFields.enemy.isEnemy"
+      [cells]="battleFields.enemy.cells" (fire)="playerFire($event)"></app-battlefield>
   </div>
   <article>
     <h2>Battle ship test task</h2>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import GameGeneratorService from './services/gameGenerator';
 import Ship, { Cell, ShipPosition } from './models/ship';
+import GameStateService, { BattleFieldCell } from './services/gameState';
 
 @Component({
   selector: 'app-root',
@@ -9,25 +10,50 @@ import Ship, { Cell, ShipPosition } from './models/ship';
 })
 
 export class AppComponent {
-  public playerShips: Ship[];
-  public enemyShips: Ship[];
+  public battleFields: {
+    [player: string]: {
+      title: string,
+      cells: BattleFieldCell[],
+      isEnemy: boolean
+    }
+  } = {
+      player: {
+        title: 'Your field',
+        cells: [],
+        isEnemy: false
+      },
+      enemy: {
+        title: 'Enemy field',
+        cells: [],
+        isEnemy: true
+      }
+    };
 
-  constructor(private generator: GameGeneratorService) {
+  constructor(
+    private generator: GameGeneratorService,
+    private game: GameStateService,
+  ) {
     this.restart();
   }
 
   public restart() {
-    this.playerShips = this.createShips(this.generateShapes());
-    this.enemyShips = this.createShips(this.generateShapes());
-    this.generator.start(this.playerShips, this.enemyShips);
+    const playerShips = this.createShips(this.generateShapes());
+    const enemyShips = this.createShips(this.generateShapes());
+    this.generator.start(playerShips, enemyShips);
+    this.game.newGame(playerShips, enemyShips);
+    this.battleFields.player.cells = this.game.getPlayerBattleField();
+    this.battleFields.enemy.cells = this.game.getEnemyBattleField();
   }
 
   public playerFire(point: ShipPosition) {
-    console.log(point);
+    const hit = this.game.playerFire(point);
+    if(hit){
+      this.game.checkGameState();
+    }
   }
 
   public enemyFire(point: ShipPosition) {
-    console.log(point);
+    this.game.enemyFire(point);
   }
 
   private generateShapes(): Cell[][] {

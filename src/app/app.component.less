@@ -12,6 +12,23 @@ body {
   margin: 0 auto;
 }
 
+.restart {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background: darken(@enemy, 10%);
+  color: white;
+  font-size: inherit;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background: @enemy;
+  }
+}
+
 h1 {
   text-align: center;
   margin: 1em 0 2em;
