@@ -1,3 +1,5 @@
+@import "styles/colors";
+@import "styles/buttons";
 html,
 body {
   min-height: 100vh;
@@ -7,38 +9,19 @@ body {
   font-size: 16px;
 }
 
-@import "styles/colors";
 .main {
   margin: 0 auto;
 }
 
-.restart {
-  position: fixed;
-  top: 0;
-  right: 0;
-  margin: 10px;
-  padding: 5px 10px;
-  border-radius: 4px;
-  background: darken(@enemy, 10%);
-  color: white;
-  font-size: inherit;
-  border: none;
-  cursor: pointer;
-  &:hover {
-    background: @enemy;
-  }
+.button__container {
+  padding-top: 50px;
+  text-align: center;
 }
 
 h1 {
   text-align: center;
   margin: 1em 0 2em;
   font-size: 3em;
-}
-
-h2 {
-  text-align: center;
-  margin: 0 0 1em 0;
-  font-size: 2em;
 }
 
 .fields {

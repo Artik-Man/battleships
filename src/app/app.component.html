@@ -1,5 +1,4 @@
 <section class="main">
-  <button class="restart" (click)="restart()">Restart</button>
   <h1>Battleships</h1>
   <div class="fields">
     <app-battlefield [title]="battleFields.player.title" [isEnemy]="battleFields.player.isEnemy"
@@ -7,28 +6,8 @@
     <app-battlefield [title]="battleFields.enemy.title" [isEnemy]="battleFields.enemy.isEnemy"
       [cells]="battleFields.enemy.cells" (fire)="playerFire($event)"></app-battlefield>
   </div>
-  <article>
-    <h2>Battle ship test task</h2>
-    <p>Preferably develop following task in Angular 7 with TypeScript.
-      <a href="https://github.com/Artik-Man/battleships" target="_blank">Code on github</a>
-    </p>
-    <ol>
-      <li>Let's create an onscreen grid of cells aligned within a square 10 by 10.</li>
-      <li>Then we set up initial battle ships - one L shaped, one I shaped and two dot shaped. Initial battle
-        ships cannot overlap.</li>
-      <li>Start actual game manually per play after any kind of user input which would simulate shots at
-        random positions - any missed shot would indicate already hit area, any shot at any of initial ships
-        would visually indicate that battle ship has sink (change of ship color would be fine enough). (note,
-        no autoplay is needed)</li>
-      <li>Program must be able to tell that all ships have sunk and game is over.
-        Seems simple enough and will show some actual code and how does person handles UI
-        development - which frameworks and language dialects he feels most comfortable with and stuff
-        like that.</li>
-      <li>Battle ships must not touch one another so there is at least a single cell between them. Any
-        battle ship rotation must be random.
-        Each ship must have outline color defining boundaries of a ship.</li>
-      <li>Multi cell battle ships (I && L) must consist of 4 cells, so there is no ambiguity of L shapes that
-        do not look like L and I shapes of more or less than 4 cells.</li>
-    </ol>
-  </article>
+  <div class="button__container">
+    <button class="button" (click)="restart()">Restart</button>
+  </div>
+  <app-description (play)="restart()"></app-description>
 </section>

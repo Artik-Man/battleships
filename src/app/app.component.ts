@@ -35,7 +35,7 @@ export class AppComponent {
     private game: GameStateService,
     private bot: Bot
   ) {
-    this.restart();
+    // this.restart();
   }
 
   public restart() {
