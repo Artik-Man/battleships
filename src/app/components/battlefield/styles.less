@@ -1,4 +1,4 @@
-@import "../../styles/colors.less";
+@import "../../../styles/colors.less";
 .battlefield {
   @size: 90vmin/10;
   position: relative;
@@ -37,12 +37,12 @@
     }
     &.miss {
       background-color: aqua;
-      background-image: data-uri('../../styles/water.svg');
+      background-image: data-uri('../../../styles/water.svg');
       box-shadow: none;
     }
     &:hover:not(:disabled) {
       box-shadow: inset 0 0 10px 1px @enemy;
-      background-image: data-uri('../../styles/aim.svg');
+      background-image: data-uri('../../../styles/aim.svg');
     }
     &:disabled {
       cursor: default;
