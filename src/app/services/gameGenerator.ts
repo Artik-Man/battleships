@@ -34,6 +34,7 @@ export default class GameGeneratorService {
   }
 
   private createRandomAreas(areas: Area[]): PositionedArea[] {
+    // TODO: need to improve the algorithm
     const output: PositionedArea[] = [];
 
     areas = areas.sort((a, b) => b.width * b.height - a.width * a.height);

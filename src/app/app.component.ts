@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import GameGeneratorService from './services/gameGenerator';
-import Ship, { Cell, ShipPosition } from './models/ship';
+import Ship, { Cell, Point } from './models/ship';
 import GameStateService, { BattleFieldCell } from './services/gameState';
+import Bot from './services/bot';
 
 @Component({
   selector: 'app-root',
@@ -32,11 +33,13 @@ export class AppComponent {
   constructor(
     private generator: GameGeneratorService,
     private game: GameStateService,
+    private bot: Bot
   ) {
     this.restart();
   }
 
   public restart() {
+    this.bot.restart();
     const playerShips = this.createShips(this.generateShapes());
     const enemyShips = this.createShips(this.generateShapes());
     this.generator.start(playerShips, enemyShips);
@@ -45,14 +48,17 @@ export class AppComponent {
     this.battleFields.enemy.cells = this.game.getEnemyBattleField();
   }
 
-  public playerFire(point: ShipPosition) {
+  public playerFire(point: Point) {
     const hit = this.game.playerFire(point);
-    if(hit){
+    if (hit) {
       this.game.checkGameState();
     }
+    this.bot.myTurn((point: Point) => {
+      return this.game.enemyFire(point);
+    });
   }
 
-  public enemyFire(point: ShipPosition) {
+  public enemyFire(point: Point) {
     this.game.enemyFire(point);
   }
 

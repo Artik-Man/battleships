@@ -1,7 +1,7 @@
 export default class Ship {
   public id: number;
   public shape: Cell[];
-  public position: ShipPosition;
+  public position: Point;
   public dead: boolean;
   public damaged: boolean;
 
@@ -20,7 +20,7 @@ export default class Ship {
   }
 }
 
-export interface ShipPosition {
+export interface Point {
   x: number;
   y: number;
 }

@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BattlefieldComponent } from './components/battlefield';
 import GameGeneratorService from './services/gameGenerator';
 import GameStateService from './services/gameState';
+import Bot from './services/bot';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import GameStateService from './services/gameState';
   ],
   providers: [
     GameGeneratorService,
-    GameStateService
+    GameStateService,
+    Bot
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
-import { ShipPosition } from 'src/app/models/ship';
+import { Point } from 'src/app/models/ship';
 import { BattleFieldCell } from 'src/app/services/gameState';
 
 @Component({
@@ -13,7 +13,7 @@ export class BattlefieldComponent {
   @Input() title = '';
   @Input() isEnemy = false;
   @Input() cells: BattleFieldCell[] = [];
-  @Output() fire = new EventEmitter<ShipPosition>();
+  @Output() fire = new EventEmitter<Point>();
 
   constructor() {
     console.log(this);

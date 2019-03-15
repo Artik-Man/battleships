@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import Ship, { ShipPosition } from '../models/ship';
+import Ship, { Point } from '../models/ship';
 
 @Injectable()
 export default class GameStateService {
@@ -27,15 +27,24 @@ export default class GameStateService {
         return this.enemyBattleField;
     }
 
-    public playerFire(point: ShipPosition): boolean {
+    public playerFire(point: Point): boolean {
         return this.fire(this.enemyBattleField, this.enemyShips, point);
     }
 
-    public enemyFire(point: ShipPosition): boolean {
+    public enemyFire(point: Point): boolean {
         return this.fire(this.playerBattleField, this.playerShips, point);
     }
 
-    private fire(battlefield: BattleFieldCell[], ships: Ship[], point: ShipPosition): boolean {
+    public checkGameState() {
+        if (!this.playerShips.filter(ship => !ship.dead).length) {
+            // Enemy win
+        } else if (!this.enemyShips.filter(ship => !ship.dead).length) {
+            // Player win
+        }
+        // TODO: Game over
+    }
+
+    private fire(battlefield: BattleFieldCell[], ships: Ship[], point: Point): boolean {
         const coord = this.linearCoords(point);
         const update = (state: string) => {
             battlefield[coord][state] = true;
@@ -62,15 +71,6 @@ export default class GameStateService {
         ship.dead = ship.shape.filter(cell => cell.damaged).length === ship.shape.length;
     }
 
-    public checkGameState() {
-        if (!this.playerShips.filter(ship => !ship.dead).length) {
-            // Enemy win
-        } else if (!this.enemyShips.filter(ship => !ship.dead).length) {
-            // Player win
-        }
-        // TODO: Game over
-    }
-
     private prepareShips(ships: Ship[], isEnemy: boolean = false): BattleFieldCell[] {
         const cells = [];
         for (let y = 0; y < 10; y++) {
@@ -83,7 +83,6 @@ export default class GameStateService {
                     miss: false
                 });
             }
-
         }
         if (!isEnemy) {
             ships.forEach(ship => {
@@ -96,7 +95,7 @@ export default class GameStateService {
         return cells;
     }
 
-    private linearCoords(position: ShipPosition): number {
+    private linearCoords(position: Point): number {
         return position.y * 10 + position.x;
     }
 
@@ -110,7 +109,6 @@ export default class GameStateService {
             coords.push(linearCoord);
         });
         return coords;
-
     }
 
 }
