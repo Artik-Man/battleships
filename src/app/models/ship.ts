@@ -1,11 +1,19 @@
 export default class Ship {
-  public shape: Shape;
+  public id: number;
+  public shape: Cell[];
   public position: ShipPosition;
   public dead = false;
 
-  constructor(shape: Shape, position: ShipPosition) {
-    this.shape = shape;
-    this.position = position;
+  constructor(id: number, shape: Cell[]) {
+    this.id = id;
+    this.shape = shape.map(cell => {
+      cell.damaged = false;
+      return cell;
+    });
+    this.position = {
+      x: 0,
+      y: 0
+    };
   }
 }
 
@@ -14,10 +22,8 @@ export interface ShipPosition {
   y: number;
 }
 
-interface Shape {
-  cells: Cell[];
-}
-
-interface Cell extends ShipPosition {
-  damaged: boolean;
+export interface Cell {
+  x: number;
+  y: number;
+  damaged?: boolean;
 }

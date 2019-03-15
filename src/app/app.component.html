@@ -1,7 +1,8 @@
 <section class="main">
+  <button class="restart" (click)="restart()">Restart</button>
   <h1>Battleships</h1>
   <div class="fields">
-    <app-battlefield [ships]="playerShips" title="Your field"></app-battlefield>
-    <app-battlefield [ships]="enemyShips" title="Enemy field" isEnemy="true"></app-battlefield>
+    <app-battlefield [ships]="playerShips" fieldTitle="Your field"></app-battlefield>
+    <app-battlefield [ships]="enemyShips" fieldTitle="Enemy field" isEnemy="true"></app-battlefield>
   </div>
 </section>

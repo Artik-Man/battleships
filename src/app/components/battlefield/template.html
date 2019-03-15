@@ -1,4 +1,5 @@
 <div class="battlefield" [ngClass]="{'enemy':isEnemy}">
-  <h2 class="title">{{title}}</h2>
-  <div *ngFor="let cell of cells" class="cell" [ngClass]="{'ship': cell.shipHere, 'damage': cell.shipDamaged, 'miss': cell.miss}"></div>
+  <h2 class="title">{{fieldTitle}}</h2>
+  <button *ngFor="let cell of cells" class="cell" [disabled]="!isEnemy || cell.miss || cell.shipHere" (click)="fire(cell)"
+    [ngClass]="{'ship': cell.shipHere, 'damage': cell.shipDamaged, 'miss': cell.miss}"></button>
 </div>

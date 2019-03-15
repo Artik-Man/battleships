@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import Ship, { ShipPosition } from 'src/app/models/ship';
 
 @Component({
@@ -7,45 +7,52 @@ import Ship, { ShipPosition } from 'src/app/models/ship';
   styleUrls: ['./styles.less']
 })
 
-export class BattlefieldComponent implements OnInit {
+export class BattlefieldComponent implements OnChanges {
 
   @Input() ships: Ship[] = [];
   @Input() isEnemy = false;
-  @Input() title = '';
+  @Input() fieldTitle = '';
   public cells = [];
 
   constructor() {
+    console.log(this);
+  }
+
+  ngOnChanges() {
+    this.prepareShips();
+  }
+
+  private prepareShips() {
+    this.cells = [];
     for (let i = 0; i < 100; i++) {
       this.cells.push({
+        linearPosition: i,
         shipHere: false,
         shipDamaged: false,
         miss: false
       });
     }
-
-    console.log(this);
-
-  }
-
-  ngOnInit() {
     // if (!this.isEnemy) {
     this.ships.forEach(ship => {
-      ship.shape.cells.forEach(cell => {
+      ship.shape.forEach(cell => {
         const linearCoord = this.linearCoords({
-          x: cell.x + ship.position.x,
-          y: cell.y + ship.position.y
+          x: cell.x + ship.position.x - 1,
+          y: cell.y + ship.position.y - 1
         });
-
+        if (linearCoord > 100) {
+          console.warn(linearCoord, ship);
+        }
         this.cells[linearCoord].shipHere = true;
       });
     });
     // }
   }
 
+  public fire(cell) {
+    console.warn('fire', cell);
+  }
+
   private linearCoords(position: ShipPosition): number {
-    if (position.y * 10 + position.x < 1) {
-      console.log(position, position.y * 10 + position.x);
-    }
     return position.y * 10 + position.x;
   }
 
