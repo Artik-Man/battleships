@@ -2,7 +2,6 @@
 @import "./styles/buttons.less";
 html,
 body {
-  min-height: 100vh;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -12,12 +11,22 @@ body {
 
 h1 {
   text-align: center;
-  margin: 1em 0 2em;
+  margin: 0 0 3em;
   font-size: 3em;
+  padding-top: 1em;
 }
 
 h2 {
   text-align: center;
-  margin: 0 0 2em 0;
+  margin: 0 0 1em 0;
   font-size: 2em;
+}
+
+.main {
+  min-height: 100vh;
+}
+
+.button__container {
+  padding-top: 2em;
+  text-align: center;
 }
