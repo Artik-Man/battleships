@@ -24,22 +24,25 @@
     height: @size;
     box-shadow: inset 0 0 0 1px #ccc;
     border: none;
-    background: white;
+    background-color: white;
+    background-size: contain;
     cursor: pointer;
     &.ship {
-      background: @ally;
+      background-color: @ally;
       box-shadow: none;
     }
     &.damage {
-      background: @enemy;
+      background-color: @enemy;
       box-shadow: none;
     }
     &.miss {
-      background: aqua;
+      background-color: aqua;
+      background-image: data-uri('../../styles/water.svg');
       box-shadow: none;
     }
     &:hover:not(:disabled) {
       box-shadow: inset 0 0 10px 1px @enemy;
+      background-image: data-uri('../../styles/aim.svg');
     }
     &:disabled {
       cursor: default;
