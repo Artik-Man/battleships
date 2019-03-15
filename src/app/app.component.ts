@@ -52,10 +52,11 @@ export class AppComponent {
     const hit = this.game.playerFire(point);
     if (hit) {
       this.game.checkGameState();
+    } else {
+      this.bot.myTurn((p: Point) => {
+        return this.game.enemyFire(p);
+      });
     }
-    this.bot.myTurn((point: Point) => {
-      return this.game.enemyFire(point);
-    });
   }
 
   public enemyFire(point: Point) {

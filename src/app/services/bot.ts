@@ -13,7 +13,16 @@ export default class Bot {
     }
 
     public myTurn(fire: (point: Point) => boolean) {
-        const hit = fire(this.randomPoint());
+        const point = this.randomPoint();
+        const hit = fire(point);
+        if (hit) {
+            this.battlefield[point.y * 10 + point.x].shipHere = true;
+            this.battlefield[point.y * 10 + point.x].shipDamaged = true;
+            // TODO: need to understand where bot can take next shot
+            this.myTurn(fire);
+        } else {
+            this.battlefield[point.y * 10 + point.x].miss = true;
+        }
     }
 
     public restart() {
@@ -40,7 +49,6 @@ export default class Bot {
         const x = Math.floor(linearPoint % 10);
         const y = Math.floor(linearPoint / 10);
         this.canShot.splice(index, 1);
-        console.log(this.canShot, index, linearPoint, x, y);
         return { x, y };
     }
 }

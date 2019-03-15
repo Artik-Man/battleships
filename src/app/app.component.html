@@ -3,7 +3,7 @@
   <h1>Battleships</h1>
   <div class="fields">
     <app-battlefield [title]="battleFields.player.title" [isEnemy]="battleFields.player.isEnemy"
-      [cells]="battleFields.player.cells" (fire)="enemyFire($event)"></app-battlefield>
+      [cells]="battleFields.player.cells"></app-battlefield>
     <app-battlefield [title]="battleFields.enemy.title" [isEnemy]="battleFields.enemy.isEnemy"
       [cells]="battleFields.enemy.cells" (fire)="playerFire($event)"></app-battlefield>
   </div>
