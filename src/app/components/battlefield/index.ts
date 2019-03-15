@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Point } from 'src/app/models/ship';
 import { BattleFieldCell } from 'src/app/services/gameState';
 

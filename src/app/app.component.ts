@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import GameGeneratorService from './services/gameGenerator';
-import Ship, { Cell, Point } from './models/ship';
-import GameStateService, { BattleFieldCell, GameState } from './services/gameState';
-import Bot from './services/bot';
+import { GameGeneratorService } from './services/gameGenerator';
+import { Ship, Cell, Point } from './models/ship';
+import { GameStateService, BattleFieldCell, GameState } from './services/gameState';
+import { Bot } from './services/bot';
 
 @Component({
   selector: 'app-root',

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import Ship from '../models/ship';
+import {Ship} from '../models/ship';
 
 @Injectable()
-export default class GameGeneratorService {
+export class GameGeneratorService {
 
   constructor() {
     console.log(this);

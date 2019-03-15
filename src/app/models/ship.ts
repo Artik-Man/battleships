@@ -1,4 +1,4 @@
-export default class Ship {
+export class Ship {
   public id: number;
   public shape: Cell[];
   public position: Point;

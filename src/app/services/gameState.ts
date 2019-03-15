@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import Ship, { Point } from '../models/ship';
+import { Ship, Point } from '../models/ship';
 
 export const enum GameState {
     GameContinues = 0,
@@ -16,7 +16,7 @@ export interface BattleFieldCell {
 }
 
 @Injectable()
-export default class GameStateService {
+export class GameStateService {
     private playerShips: Ship[] = [];
     private enemyShips: Ship[] = [];
     private playerBattleField: BattleFieldCell[] = [];

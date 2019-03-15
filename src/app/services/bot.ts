@@ -3,7 +3,7 @@ import { BattleFieldCell } from './gameState';
 import { Point } from '../models/ship';
 
 Injectable();
-export default class Bot {
+export class Bot {
     private battlefield: BattleFieldCell[] = [];
     private canShot = [];
 
