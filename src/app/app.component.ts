@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import GameGeneratorService from './services/gameGenerator';
 import Ship, { Cell, Point } from './models/ship';
-import GameStateService, { BattleFieldCell } from './services/gameState';
+import GameStateService, { BattleFieldCell, GameState } from './services/gameState';
 import Bot from './services/bot';
 
 @Component({
@@ -11,6 +11,7 @@ import Bot from './services/bot';
 })
 
 export class AppComponent {
+  public gameIsStarted = false;
   public battleFields: {
     [player: string]: {
       title: string,
@@ -34,11 +35,10 @@ export class AppComponent {
     private generator: GameGeneratorService,
     private game: GameStateService,
     private bot: Bot
-  ) {
-    // this.restart();
-  }
+  ) { }
 
   public restart() {
+    this.gameIsStarted = true;
     this.bot.restart();
     const playerShips = this.createShips(this.generateShapes());
     const enemyShips = this.createShips(this.generateShapes());
@@ -51,7 +51,8 @@ export class AppComponent {
   public playerFire(point: Point) {
     const hit = this.game.playerFire(point);
     if (hit) {
-      this.game.checkGameState();
+      const state: GameState = this.game.checkGameState();
+      this.gameStateReaction(state);
     } else {
       this.bot.myTurn((p: Point) => {
         return this.game.enemyFire(p);
@@ -59,8 +60,17 @@ export class AppComponent {
     }
   }
 
-  public enemyFire(point: Point) {
-    this.game.enemyFire(point);
+  private gameStateReaction(state: GameState) {
+    switch (state) {
+      default:
+      case GameState.GameContinues:
+        break;
+      case GameState.PlayerWin:
+        console.log('player win');
+        break;
+      case GameState.EnemyWin:
+        console.log('enemy win');
+    }
   }
 
   private generateShapes(): Cell[][] {

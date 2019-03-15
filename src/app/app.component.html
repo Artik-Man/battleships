@@ -1,8 +1,7 @@
 <section class="main">
   <h1>Battleships</h1>
-  <div class="fields">
-    <app-battlefield [title]="battleFields.player.title" [isEnemy]="battleFields.player.isEnemy"
-      [cells]="battleFields.player.cells"></app-battlefield>
+  <div class="fields" *ngIf="gameIsStarted">
+    <app-battlefield [title]="battleFields.player.title" [cells]="battleFields.player.cells"></app-battlefield>
     <app-battlefield [title]="battleFields.enemy.title" [isEnemy]="battleFields.enemy.isEnemy"
       [cells]="battleFields.enemy.cells" (fire)="playerFire($event)"></app-battlefield>
   </div>
