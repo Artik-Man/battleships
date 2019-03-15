@@ -1,6 +1,20 @@
 import { Injectable } from '@angular/core';
 import Ship, { Point } from '../models/ship';
 
+export const enum GameState {
+    GameContinues = 0,
+    PlayerWin = 1,
+    EnemyWin = 2,
+}
+
+export interface BattleFieldCell {
+    x: number;
+    y: number;
+    shipHere: boolean;
+    shipDamaged: boolean;
+    miss: boolean;
+}
+
 @Injectable()
 export default class GameStateService {
     private playerShips: Ship[] = [];
@@ -35,13 +49,14 @@ export default class GameStateService {
         return this.fire(this.playerBattleField, this.playerShips, point);
     }
 
-    public checkGameState() {
+    public checkGameState(): GameState {
         if (!this.playerShips.filter(ship => !ship.dead).length) {
-            // Enemy win
+            return GameState.EnemyWin;
         } else if (!this.enemyShips.filter(ship => !ship.dead).length) {
-            // Player win
+            return GameState.PlayerWin;
+        } else {
+            return GameState.GameContinues;
         }
-        // TODO: Game over
     }
 
     private fire(battlefield: BattleFieldCell[], ships: Ship[], point: Point): boolean {
@@ -53,7 +68,10 @@ export default class GameStateService {
             const shipLinearCoords = this.getShipLinearCoords(ship);
             if (shipLinearCoords.includes(coord)) {
                 ship.damaged = true;
-                const shipCell = ship.shape.find(cell => cell.x === point.x && cell.y === point.y);
+                const shipCell = ship.shape.find(cell => {
+                    return ship.position.x + cell.x - 1 === point.x
+                        && ship.position.y + cell.y - 1 === point.y;
+                });
                 if (shipCell) {
                     shipCell.damaged = true;
                 }
@@ -111,12 +129,4 @@ export default class GameStateService {
         return coords;
     }
 
-}
-
-export interface BattleFieldCell {
-    x: number;
-    y: number;
-    shipHere: boolean;
-    shipDamaged: boolean;
-    miss: boolean;
 }
