@@ -20,7 +20,11 @@ export class GameService {
     constructor() {
         console.log(this);
     }
-
+    /**
+     * Create new game
+     * @param playerShips - Player Ships list
+     * @param enemyShips - Enemy Ships list
+     */
     public newGame(playerShips: Ship[], enemyShips: Ship[]) {
         this.winner = false;
         this.playerShips = playerShips;
