@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { GameGeneratorService } from './services/gameGenerator';
 import { Ship, Cell, Point } from './models/ship';
-import { GameStateService, BattleFieldCell, GameState } from './services/gameState';
+import { GameService, BattleFieldCell, GameState } from './services/gameState';
 import { Bot } from './services/bot';
 
 @Component({
@@ -34,7 +34,7 @@ export class AppComponent {
 
   constructor(
     private generator: GameGeneratorService,
-    private game: GameStateService,
+    private game: GameService,
     private bot: Bot
   ) { }
 
@@ -42,10 +42,8 @@ export class AppComponent {
     this.winner = null;
     this.gameIsStarted = true;
     this.bot.restart();
-    const playerShips = this.createShips(this.generateShapes());
-    const enemyShips = this.createShips(this.generateShapes());
-    this.generator.start(playerShips, enemyShips);
-    this.game.newGame(playerShips, enemyShips);
+    const battlefields = this.generator.startGame();
+    this.game.newGame(battlefields.playerShips, battlefields.enemyShips);
     this.battleFields.player.cells = this.game.getPlayerBattleField();
     this.battleFields.enemy.cells = this.game.getEnemyBattleField();
   }
@@ -57,11 +55,11 @@ export class AppComponent {
         return this.game.enemyFire(p);
       });
     }
-    const state: GameState = this.game.checkGameState();
-    this.gameStateReaction(state);
+    this.gameStateReaction();
   }
 
-  private gameStateReaction(state: GameState) {
+  private gameStateReaction() {
+    const state: GameState = this.game.checkGameState();
     switch (state) {
       default:
       case GameState.GameContinues:
@@ -74,52 +72,4 @@ export class AppComponent {
     }
   }
 
-  private generateShapes(): Cell[][] {
-    return [
-      this.createDotShape(),
-      this.createDotShape(),
-      this.createIShape(),
-      this.createLShape()
-    ];
-  }
-
-  private createShips(ships: Cell[][]): Ship[] {
-    let id = 0;
-    return ships.map(shape => {
-      return new Ship(++id, shape);
-    });
-  }
-
-  private createDotShape(): Cell[] {
-    return [{ x: 1, y: 1 }];
-  }
-
-  private createIShape(): Cell[] {
-    const shape = [{ x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 }];
-    if (Math.random() > .5) {
-      shape.forEach((cell, i) => {
-        cell.x = 1;
-        cell.y = i + 1;
-      });
-    }
-    return shape;
-  }
-
-  private createLShape(): Cell[] {
-    const shape = [{ x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }];
-    if (Math.random() > .5) {
-      shape.forEach((cell, i) => {
-        cell.x = 1;
-        cell.y = i + 1;
-      });
-      const additionalPoints = [{ x: 2, y: 1 }, { x: 2, y: 3 }];
-      const point = additionalPoints[Math.round(Math.random() * (additionalPoints.length - 1))];
-      shape.push(point);
-    } else {
-      const additionalPoints = [{ x: 1, y: 2 }, { x: 3, y: 2 }];
-      const point = additionalPoints[Math.round(Math.random() * (additionalPoints.length - 1))];
-      shape.push(point);
-    }
-    return shape;
-  }
 }

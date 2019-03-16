@@ -1,14 +1,22 @@
 import { Injectable } from '@angular/core';
-import {Ship} from '../models/ship';
+import { Ship, Cell } from '../models/ship';
+
+export const BATTLEFIELD_SIZE = 10;
 
 @Injectable()
 export class GameGeneratorService {
-
   constructor() {
     console.log(this);
   }
 
-  public start(palyerShips: Ship[], enemyShips: Ship[]) {
+  public startGame(): { playerShips: Ship[], enemyShips: Ship[] } {
+    const playerShips = this.createShips(this.generateShapes());
+    const enemyShips = this.createShips(this.generateShapes());
+    this.shakeShips(playerShips, enemyShips);
+    return { playerShips, enemyShips };
+  }
+
+  private shakeShips(palyerShips: Ship[], enemyShips: Ship[]) {
     this.arrangeShips(palyerShips);
     this.arrangeShips(enemyShips);
   }
@@ -36,13 +44,11 @@ export class GameGeneratorService {
   private createRandomAreas(areas: Area[]): PositionedArea[] {
     // TODO: need to improve the algorithm
     const output: PositionedArea[] = [];
-
     areas = areas.sort((a, b) => b.width * b.height - a.width * a.height);
-
     do {
       const area = areas[output.length];
-      const x = Math.round(Math.random() * (10 - area.width));
-      const y = Math.round(Math.random() * (10 - area.height));
+      const x = Math.round(Math.random() * (BATTLEFIELD_SIZE - area.width));
+      const y = Math.round(Math.random() * (BATTLEFIELD_SIZE - area.height));
       const width = area.width;
       const height = area.height;
       const id = area.id;
@@ -61,9 +67,7 @@ export class GameGeneratorService {
       } else {
         output.push(posArea);
       }
-
     } while (output.length < areas.length);
-
     return output.sort((a, b) => a.id - b.id);
   }
 
@@ -73,7 +77,58 @@ export class GameGeneratorService {
       rect1.y - 1 < rect2.y + rect2.height &&
       rect1.y + 1 + rect1.height > rect2.y);
   }
+
+
+  private generateShapes(): Cell[][] {
+    return [
+      this.createDotShape(),
+      this.createDotShape(),
+      this.createIShape(),
+      this.createLShape()
+    ];
+  }
+
+  private createShips(ships: Cell[][]): Ship[] {
+    let id = 0;
+    return ships.map(shape => {
+      return new Ship(++id, shape);
+    });
+  }
+
+  private createDotShape(): Cell[] {
+    return [{ x: 1, y: 1 }];
+  }
+
+  private createIShape(): Cell[] {
+    const shape = [{ x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 1 }];
+    if (Math.random() > .5) {
+      shape.forEach((cell, i) => {
+        cell.x = 1;
+        cell.y = i + 1;
+      });
+    }
+    return shape;
+  }
+
+  private createLShape(): Cell[] {
+    const shape = [{ x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 1 }];
+    if (Math.random() > .5) {
+      shape.forEach((cell, i) => {
+        cell.x = 1;
+        cell.y = i + 1;
+      });
+      const additionalPoints = [{ x: 2, y: 1 }, { x: 2, y: 3 }];
+      const point = additionalPoints[Math.round(Math.random() * (additionalPoints.length - 1))];
+      shape.push(point);
+    } else {
+      const additionalPoints = [{ x: 1, y: 2 }, { x: 3, y: 2 }];
+      const point = additionalPoints[Math.round(Math.random() * (additionalPoints.length - 1))];
+      shape.push(point);
+    }
+    return shape;
+  }
 }
+
 
 interface Area {
   id: number;

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Ship, Point } from '../models/ship';
+import { BATTLEFIELD_SIZE } from './gameGenerator';
 
 export const enum GameState {
     GameContinues = 0,
@@ -12,21 +13,24 @@ export interface BattleFieldCell {
     y: number;
     shipHere: boolean;
     shipDamaged: boolean;
+    shipDied: boolean;
     miss: boolean;
 }
 
 @Injectable()
-export class GameStateService {
+export class GameService {
     private playerShips: Ship[] = [];
     private enemyShips: Ship[] = [];
     private playerBattleField: BattleFieldCell[] = [];
     private enemyBattleField: BattleFieldCell[] = [];
+    private winner = false;
 
     constructor() {
         console.log(this);
     }
 
     public newGame(playerShips: Ship[], enemyShips: Ship[]) {
+        this.winner = false;
         this.playerShips = playerShips;
         this.enemyShips = enemyShips;
         this.playerBattleField = this.prepareShips(this.playerShips);
@@ -50,9 +54,11 @@ export class GameStateService {
     }
 
     public checkGameState(): GameState {
-        if (!this.playerShips.filter(ship => !ship.dead).length) {
+        if (!this.playerShips.filter(ship => !ship.died).length) {
+            this.winner = true;
             return GameState.EnemyWin;
-        } else if (!this.enemyShips.filter(ship => !ship.dead).length) {
+        } else if (!this.enemyShips.filter(ship => !ship.died).length) {
+            this.winner = true;
             return GameState.PlayerWin;
         } else {
             return GameState.GameContinues;
@@ -60,6 +66,9 @@ export class GameStateService {
     }
 
     private fire(battlefield: BattleFieldCell[], ships: Ship[], point: Point): boolean {
+        if (this.winner) {
+            return false;
+        }
         const coord = this.linearCoords(point);
         const update = (state: string) => {
             battlefield[coord][state] = true;
@@ -78,6 +87,9 @@ export class GameStateService {
                 update('shipDamaged');
                 update('shipHere');
                 this.checkShipLife(ship);
+                if (ship.died) {
+                    this.markCellsAsDied(battlefield, ship);
+                }
                 return true;
             }
         }
@@ -86,13 +98,19 @@ export class GameStateService {
     }
 
     private checkShipLife(ship: Ship) {
-        ship.dead = ship.shape.filter(cell => cell.damaged).length === ship.shape.length;
+        ship.died = ship.shape.filter(cell => cell.damaged).length === ship.shape.length;
+    }
+
+    private markCellsAsDied(battlefield: BattleFieldCell[], ship: Ship) {
+        this.getShipLinearCoords(ship).forEach(coord => {
+            battlefield[coord].shipDied = true;
+        });
     }
 
     private prepareShips(ships: Ship[], isEnemy: boolean = false): BattleFieldCell[] {
         const cells = [];
-        for (let y = 0; y < 10; y++) {
-            for (let x = 0; x < 10; x++) {
+        for (let y = 0; y < BATTLEFIELD_SIZE; y++) {
+            for (let x = 0; x < BATTLEFIELD_SIZE; x++) {
                 cells.push({
                     x,
                     y,
@@ -114,7 +132,7 @@ export class GameStateService {
     }
 
     private linearCoords(position: Point): number {
-        return position.y * 10 + position.x;
+        return position.y * BATTLEFIELD_SIZE + position.x;
     }
 
     private getShipLinearCoords(ship: Ship): number[] {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BattleFieldCell } from './gameState';
 import { Point } from '../models/ship';
+import { BATTLEFIELD_SIZE } from './gameGenerator';
 
 Injectable();
 export class Bot {
@@ -16,12 +17,12 @@ export class Bot {
         const point = this.randomPoint();
         const hit = fire(point);
         if (hit) {
-            this.battlefield[point.y * 10 + point.x].shipHere = true;
-            this.battlefield[point.y * 10 + point.x].shipDamaged = true;
+            this.battlefield[point.y * BATTLEFIELD_SIZE + point.x].shipHere = true;
+            this.battlefield[point.y * BATTLEFIELD_SIZE + point.x].shipDamaged = true;
             // TODO: need to understand where bot can take next shot
             this.myTurn(fire);
         } else {
-            this.battlefield[point.y * 10 + point.x].miss = true;
+            this.battlefield[point.y * BATTLEFIELD_SIZE + point.x].miss = true;
         }
     }
 
@@ -29,25 +30,26 @@ export class Bot {
         this.battlefield = [];
         this.canShot = [];
         let i = 0;
-        for (let y = 0; y < 10; y++) {
-            for (let x = 0; x < 10; x++) {
+        for (let y = 0; y < BATTLEFIELD_SIZE; y++) {
+            for (let x = 0; x < BATTLEFIELD_SIZE; x++) {
                 this.canShot.push(i++);
                 this.battlefield.push({
                     x,
                     y,
                     shipHere: false,
                     shipDamaged: false,
+                    shipDied: false,
                     miss: false
                 });
             }
         }
     }
 
-    public randomPoint(): Point {
+    private randomPoint(): Point {
         const index = Math.floor(Math.random() * this.canShot.length);
         const linearPoint = this.canShot[index];
-        const x = Math.floor(linearPoint % 10);
-        const y = Math.floor(linearPoint / 10);
+        const x = Math.floor(linearPoint % BATTLEFIELD_SIZE);
+        const y = Math.floor(linearPoint / BATTLEFIELD_SIZE);
         this.canShot.splice(index, 1);
         return { x, y };
     }

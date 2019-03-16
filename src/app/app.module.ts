@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { BattlefieldComponent } from './components/battlefield';
 import { DescriptionComponent } from './components/description';
 import { GameGeneratorService } from './services/gameGenerator';
-import { GameStateService } from './services/gameState';
+import { GameService } from './services/gameState';
 import { Bot } from './services/bot';
 
 
@@ -20,7 +20,7 @@ import { Bot } from './services/bot';
   ],
   providers: [
     GameGeneratorService,
-    GameStateService,
+    GameService,
     Bot
   ],
   bootstrap: [AppComponent]

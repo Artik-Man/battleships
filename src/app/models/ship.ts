@@ -2,7 +2,7 @@ export class Ship {
   public id: number;
   public shape: Cell[];
   public position: Point;
-  public dead: boolean;
+  public died: boolean;
   public damaged: boolean;
 
   constructor(id: number, shape: Cell[]) {
@@ -15,7 +15,7 @@ export class Ship {
       x: 0,
       y: 0
     };
-    this.dead = false;
+    this.died = false;
     this.damaged = false;
   }
 }
