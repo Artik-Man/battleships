@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { BattlefieldComponent } from './components/battlefield';
 import { DescriptionComponent } from './components/description';
 import { GameGeneratorService } from './services/gameGenerator';
-import { GameService } from './services/gameState';
+import { GameService } from './services/game';
 import { Bot } from './services/bot';
 
 

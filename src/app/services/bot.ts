@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BattleFieldCell } from './gameState';
 import { Point } from '../models/ship';
+import { BattleFieldCell } from '../models/battlefieldCell';
 import { BATTLEFIELD_SIZE } from './gameGenerator';
 
 Injectable();
+/**
+ * Opponent
+ */
 export class Bot {
     private battlefield: BattleFieldCell[] = [];
     private canShot = [];
@@ -13,6 +16,10 @@ export class Bot {
         this.restart();
     }
 
+    /**
+     * Calls GameService.enemyFire method with random point
+     * @param fire - GameService.enemyFire method
+     */
     public myTurn(fire: (point: Point) => boolean) {
         const point = this.randomPoint();
         const hit = fire(point);
@@ -26,6 +33,9 @@ export class Bot {
         }
     }
 
+    /**
+     * Restart Bot mind
+     */
     public restart() {
         this.battlefield = [];
         this.canShot = [];
@@ -33,18 +43,14 @@ export class Bot {
         for (let y = 0; y < BATTLEFIELD_SIZE; y++) {
             for (let x = 0; x < BATTLEFIELD_SIZE; x++) {
                 this.canShot.push(i++);
-                this.battlefield.push({
-                    x,
-                    y,
-                    shipHere: false,
-                    shipDamaged: false,
-                    shipDied: false,
-                    miss: false
-                });
+                this.battlefield.push(new BattleFieldCell(x, y));
             }
         }
     }
 
+    /**
+     * Generate random point for shot
+     */
     private randomPoint(): Point {
         const index = Math.floor(Math.random() * this.canShot.length);
         const linearPoint = this.canShot[index];

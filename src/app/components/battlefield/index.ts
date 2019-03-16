@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Point } from 'src/app/models/ship';
-import { BattleFieldCell } from 'src/app/services/gameState';
+import { BattleFieldCell } from 'src/app/models/battlefieldCell';
 
 @Component({
   selector: 'app-battlefield',

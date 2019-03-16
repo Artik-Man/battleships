@@ -1,20 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Ship, Point } from '../models/ship';
 import { BATTLEFIELD_SIZE } from './gameGenerator';
+import { BattleFieldCell } from '../models/battlefieldCell';
 
 export const enum GameState {
     GameContinues = 0,
     PlayerWin = 1,
     EnemyWin = 2,
-}
-
-export interface BattleFieldCell {
-    x: number;
-    y: number;
-    shipHere: boolean;
-    shipDamaged: boolean;
-    shipDied: boolean;
-    miss: boolean;
 }
 
 @Injectable()
