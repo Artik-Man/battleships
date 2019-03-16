@@ -25,7 +25,8 @@
     box-shadow: inset 0 0 0 1px #ccc;
     border: none;
     background-color: white;
-    background-size: contain;
+    background-size: cover;
+    background-position: center center;
     cursor: pointer;
     &.ship {
       background-color: @ally;
@@ -34,6 +35,9 @@
     &.damage {
       background-color: @enemy;
       box-shadow: none;
+      &.died {
+        background-image: data-uri('../../../styles/died.svg');
+      }
     }
     &.miss {
       background-color: aqua;
